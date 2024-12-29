@@ -1,0 +1,10 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.quote{
+    max-width: 50%;
+}
+.leftForm{
+    min-width: 50%;
+}
