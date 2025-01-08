@@ -1,5 +1,5 @@
 import React from 'react';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { useBlog } from '../types/Post';
 import Avatar from 'react-avatar';
 import Loader from '../components/Loader';
@@ -42,6 +42,7 @@ const Badge: React.FC<{ variant: string; children: React.ReactNode }> = ({ varia
 );
 
 const BlogPostView: React.FC<{ post: BlogPost; onDelete: (id: string) => void; unique:boolean }> = ({ post, onDelete,unique }) => {
+    const navigate=useNavigate();
     const formatTimeOrDate = (createdAt: string): string => {
         const createdDate = new Date(createdAt);
         const now = new Date();
@@ -71,12 +72,13 @@ const BlogPostView: React.FC<{ post: BlogPost; onDelete: (id: string) => void; u
         }
 
         try {
-            await axios.delete(`${BACKEND_URL}/${post.id}`, {
+            await axios.delete(`${BACKEND_URL}/api/v1/post/delete/${post.id}`, {
                 headers: {
                     Authorization: token,
                 },
             });
             onDelete(post.id); // Notify parent to update UI
+            navigate('/blogs');
         } catch (error) {
             alert("You are not authorized to delete this post.");
         }
